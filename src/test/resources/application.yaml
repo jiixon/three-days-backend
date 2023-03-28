@@ -1,0 +1,14 @@
+#spring:
+#  datasource:
+#    url: ENC(zQoYgFqfQDe8+dYBtzvV75sLHJJlagZvWUuwjiDRqlFwuFcoSFkma9Xoo908eiRbEsZJCZSo6b46CmS+vsFXJd03HhCMEiSyT4otY7gErhwwdFXizGLcdUSrsv04Ag8ew+0U/xOQsOhNS8xLctqPgll6lbLUVB/LuliigOLvLV7Zp+10D4Yfuda4DBviTZJpJSO7gDj7ZG0=)
+#    username: ENC(CtMOo+V1tEonbpUKsM60ig==)
+#    password: ENC(JOWIV/D32YtDPpmPuSzPvxv7X2JuUp+9)
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#  jpa:
+#    show-sql: true
+#    hibernate:
+#      ddl-auto: validate
+#    database: mysql
+#    properties:
+#      hibernate:
+#        format_sql: true
