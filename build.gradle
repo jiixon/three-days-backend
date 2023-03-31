@@ -38,6 +38,9 @@ dependencies {
 
 //    jasypt
     implementation 'com.github.ulisesbocchio:jasypt-spring-boot-starter:3.0.3'
+
+//    in-memory h2 db for test code
+    implementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
