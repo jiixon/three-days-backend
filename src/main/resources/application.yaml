@@ -1,3 +1,14 @@
 jasypt:
   encryptor:
     password: hcjweg3120
+cloud:
+  aws:
+    s3:
+      bucket: itsubucket
+    stack:
+      auto: false
+    region:
+      static: ap-northeast-2
+    credentials:
+      accessKey: AKIARREOKLWWNCOBGJHR
+      secretKey: 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
