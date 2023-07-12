@@ -1,6 +1,10 @@
 jasypt:
   encryptor:
     password: hcjweg3120
+spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
 jwt:
   secret: threedaysapitokensecretkey123149398230
 cloud:
