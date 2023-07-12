@@ -9,13 +9,16 @@ import com.itsu.threedays.exception.NotFoundException;
 import com.itsu.threedays.repository.HabitRepository;
 import com.itsu.threedays.repository.ProfileRepository;
 
+
 import com.itsu.threedays.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 
+
 import java.util.List;
+
 import java.util.Optional;
 
 
@@ -27,9 +30,24 @@ public class UserService {
     private final ProfileRepository profileRepository;
     private final HabitRepository habitRepository;
 
+
     public UserEntity findByEmail(String email) {
         Optional<UserEntity> byEmail = userRepository.findByEmail(email);
         return byEmail.get();
+    }
+
+
+    public boolean isUserExist(String email) {
+        try {
+            findByEmail(email);
+            return true;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
+    public void saveUser(UserEntity user) {
+        userRepository.save(user);
     }
 
     //유저 프로필 생성
@@ -54,4 +72,5 @@ public class UserService {
         // 습관 목록 반환 (습관 목록이 없으면 null 반환)
         return habits.isEmpty() ? null : habits;
     }
+
 }
