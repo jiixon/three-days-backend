@@ -18,3 +18,5 @@ cloud:
     credentials:
       accessKey: AKIARREOKLWWNCOBGJHR
       secretKey: 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
+server:
+  port: 5000
