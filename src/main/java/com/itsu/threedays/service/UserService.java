@@ -1,24 +1,18 @@
 package com.itsu.threedays.service;
 
 
-
 import com.itsu.threedays.entity.HabitEntity;
 import com.itsu.threedays.entity.ProfileEntity;
 import com.itsu.threedays.entity.UserEntity;
 import com.itsu.threedays.exception.NotFoundException;
 import com.itsu.threedays.repository.HabitRepository;
 import com.itsu.threedays.repository.ProfileRepository;
-
-
 import com.itsu.threedays.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-
-
 import java.util.List;
-
 import java.util.Optional;
 
 
@@ -48,6 +42,12 @@ public class UserService {
 
     public void saveUser(UserEntity user) {
         userRepository.save(user);
+    }
+
+    public UserEntity fineByRefreshToken(String refreshToken) {
+        Optional<UserEntity> byRefreshToken = userRepository.findByRefreshToken(refreshToken);
+
+        return byRefreshToken.get();
     }
 
     //유저 프로필 생성
