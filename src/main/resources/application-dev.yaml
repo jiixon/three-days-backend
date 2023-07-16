@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: ENC(zQoYgFqfQDe8+dYBtzvV75sLHJJlagZvWUuwjiDRqlFwuFcoSFkma9Xoo908eiRbEsZJCZSo6b46CmS+vsFXJd03HhCMEiSyT4otY7gErhwwdFXizGLcdUSrsv04Ag8ew+0U/xOQsOhNS8xLctqPgll6lbLUVB/LuliigOLvLV7Zp+10D4Yfuda4DBviTZJpJSO7gDj7ZG0=)
-    username: ENC(CtMOo+V1tEonbpUKsM60ig==)
-    password: ENC(JOWIV/D32YtDPpmPuSzPvxv7X2JuUp+9)
+    url: ENC(SAKSQn3SnqBUaP0a/b5gO0XZ5NNIWT4SqaphgnDtV+Nukoggg+CTg8k/2HqmNcU6eEFKfvKEOMX56t6MIr1AEdnDrYyntYNhVIydyjvvzKQFBgtvA8Nk0Dgt0JHY3YVN6toOo3xTRv0+pSzr/+ME6lPKrO3LZGaya9q91fOP8v7ORBBj3UJU9wZpTzOdbOM3A7WzbCKhYCY=)
+    username: ENC(lm5qVbzDpMrKtVUznFBQcw==)
+    password: ENC(WEJRws5bvxWIqxodlpqsjwSQctB4C5Kg)
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     show-sql: true
