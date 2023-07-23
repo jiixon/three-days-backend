@@ -30,6 +30,9 @@ public class UserEntity {
     @Column(name = "PASSWORD")
     private String password;
 
+    @Column(name = "PROFILE_IMAGE")
+    private String profile_image;
+
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;
 

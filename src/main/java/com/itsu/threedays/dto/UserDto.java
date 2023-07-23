@@ -10,11 +10,5 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UserDto {
-    Long id;
-    String nickname;
-    String email;
     String kakaoAccessToken;
-    //String firebaseToken;
-    //TokenDto tokenDto;
-
 }

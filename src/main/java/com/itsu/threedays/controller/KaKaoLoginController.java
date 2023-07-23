@@ -11,7 +11,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.json.JSONObject;
 import org.springframework.http.*;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
@@ -55,18 +54,18 @@ public class KaKaoLoginController {
             log.info("email : {}", email);
             String nickname = kakao_account.getJSONObject("profile").getString("nickname");
             log.info("nickname : {}", nickname);
-
+            //String profileImageUrl = kakao_account.getJSONObject("profile").getString("profile_image_url");
+            //log.info("profileImageUrl : {}", profileImageUrl);
             //security config - password는 암호화해서 저장
 
-            SimpleGrantedAuthority simpleGrantedAuthority = new SimpleGrantedAuthority(Role.USER.toString());
             if (!userService.isUserExist(email)) {
                 log.info("회원가입 시작");
                 UserEntity user = UserEntity.builder()
                         .role(Role.USER)
-                        .id(userDto.getId())
                         .email(email)
                         .nickname(nickname)
                         .password(new BCryptPasswordEncoder().encode(email))
+                        //.profile_image(profileImageUrl)
                         .build();
                 String accessToken = tokenProvider.generateAccessToken(user);
                 log.info("accessToken: {}", accessToken);
