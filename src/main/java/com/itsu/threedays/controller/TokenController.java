@@ -34,26 +34,31 @@ public class TokenController {
 
         TokenDto responseTokenDto = new TokenDto();
 
-        //Accesstoken 만료 & Refreshtoken 유효 -> Accesstoken 새로 발급
-        if (!jwtTokenProvider.validateToken(tokenDto.getAccessToken()) && jwtTokenProvider.validateToken(tokenDto.getRefreshToken())) {
-
-            String newAccessToken = tokenService.createNewAccessToken(tokenDto.getRefreshToken());
-            log.info("newAccessToken: {}", newAccessToken);
-            responseTokenDto.setAccessToken(newAccessToken); //새로 발급한 accesstoken dto에 저장
-
-            //refreshtoken 7days 이하로 남아있는지 확인
-            if (jwtTokenProvider.getExpiryDuration(tokenDto.getRefreshToken()).compareTo(Duration.ofDays(7)) < 0) {
-                String newRefreshToken = tokenService.createNewRefreshToken(tokenDto.getRefreshToken());
-                log.info("newRefreshToken: {}", newRefreshToken);
-                responseTokenDto.setRefreshToken(newRefreshToken); //새로 발급한 refreshtoken dto에 저장
+        if (!jwtTokenProvider.validateToken(tokenDto.getAccessToken()) && !jwtTokenProvider.validateToken(tokenDto.getRefreshToken())) { //access, refresh 둘다 유효x
+            if (jwtTokenProvider.isExpired(tokenDto.getAccessToken()) && jwtTokenProvider.isExpired(tokenDto.getRefreshToken())) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
             }
 
-        }
+            //Accesstoken 만료 & Refreshtoken 유효 -> Accesstoken 새로 발급
+            if (!jwtTokenProvider.validateToken(tokenDto.getAccessToken()) && jwtTokenProvider.validateToken(tokenDto.getRefreshToken())) {
+                if (jwtTokenProvider.isExpired(tokenDto.getAccessToken())) { //Access 만료
+                    String newAccessToken = tokenService.createNewAccessToken(tokenDto.getRefreshToken());
+                    log.info("newAccessToken: {}", newAccessToken);
+                    responseTokenDto.setAccessToken(newAccessToken); //새로 발급한 accesstoken dto에 저장
 
-        if (responseTokenDto.getAccessToken() != null) {
-            return ResponseEntity.ok().body(responseTokenDto);
+                    //refreshtoken 7days 이하로 남아있는지 확인
+                    if (jwtTokenProvider.getExpiryDuration(tokenDto.getRefreshToken()).compareTo(Duration.ofDays(7)) < 0) {
+                        String newRefreshToken = tokenService.createNewRefreshToken(tokenDto.getRefreshToken());
+                        log.info("newRefreshToken: {}", newRefreshToken);
+                        responseTokenDto.setRefreshToken(newRefreshToken); //새로 발급한 refreshtoken dto에 저장
+                    }
+                }
+            }
+            if (responseTokenDto.getAccessToken() != null) {
+                return ResponseEntity.ok().body(responseTokenDto);
+            }
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
         }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        throw new IllegalArgumentException("만료된 토큰입니다");
     }
-
 }
