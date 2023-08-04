@@ -6,6 +6,7 @@ import com.itsu.threedays.dto.HabitResponseDto;
 import com.itsu.threedays.dto.HabitUpdateRequestDto;
 import com.itsu.threedays.entity.HabitEntity;
 import com.itsu.threedays.entity.UserEntity;
+import com.itsu.threedays.service.CertifyService;
 import com.itsu.threedays.service.HabitService;
 import com.itsu.threedays.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -28,6 +29,7 @@ public class HabitController {
 
     private final HabitService habitService;
     private final UserService userService;
+    private final CertifyService certifyService;
 
     @PostMapping("habit")
         //습관 생성
@@ -52,7 +54,6 @@ public class HabitController {
                 .build();
 
         habitService.saveHabit(habit);
-        log.info("habit entity: {}", habit);
         log.info("{}의 습관: 습관명-{}, 습관기간-{}, 공개여부-{}",
                 byEmail.getNickname(), habit.getTitle(), habit.getDuration(), habit.isVisible());
 
@@ -95,9 +96,11 @@ public class HabitController {
         //습관삭제
     ResponseEntity<?> deleteHabit(@PathVariable("habitId") Long habitId) {
         habitService.deleteHabit(habitId);
-
-        return ResponseEntity.ok("Habit deleted successfully.");
-
+        if (certifyService.deleteCertification(habitId)) {
+            return ResponseEntity.ok("Habit deleted successfully.");
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Habit authentication ID does not exist.");
+        }
     }
 
     @PutMapping("habits/{habitId}/stop")
@@ -127,6 +130,20 @@ public class HabitController {
                     habitService.setCommonHabitFields(editResponseDto, habitEntity); //공통필드 설정
                     editResponseDto.setStopDate(habitEntity.getStopDate()); //중지일
                     return editResponseDto;
+                })
+                .sorted((habit1, habit2) -> {
+                    LocalDateTime stopDate1 = habit1.getStopDate();
+                    LocalDateTime stopDate2 = habit2.getStopDate();
+
+                    if (stopDate1 == null && stopDate2 == null) {
+                        return 0;
+                    } else if (stopDate1 == null) {
+                        return -1; // habit1이 null이므로 habit1이 먼저 정렬됨
+                    } else if (stopDate2 == null) {
+                        return 1; // habit2가 null이므로 habit2가 먼저 정렬됨
+                    } else {
+                        return stopDate1.compareTo(stopDate2); // 둘 다 null이 아니면 일반적으로 정렬
+                    }
                 })
                 .collect(Collectors.toList());
         return ResponseEntity.ok(habitEditListDto);

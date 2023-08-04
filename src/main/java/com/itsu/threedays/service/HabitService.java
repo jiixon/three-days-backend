@@ -41,12 +41,40 @@ public class HabitService {
         }
     }
 
+    public List<HabitEntity> findPublicHabitsByUserId(Long userId) throws Exception { //삭제여부 false, 중지일 null, + 공개여부 true인거
+        Optional<UserEntity> byId = userRepository.findById(userId);
+        if (byId.isPresent()) {
+            UserEntity user = byId.get();
+            log.info("{}유저의 userId - {}", user.getNickname(), user.getId());
+            return habitRepository.findAllByUserIdAndDeleteYnAndStopDateIsNullAndVisibleIsTrue(user, false);
+        } else {
+            throw new Exception("User NOT FOUND!");
+        }
+    }
+
+    public int calculateAverageAchievementRate(List<HabitEntity> activeHabits) {
+        if (!activeHabits.isEmpty()) {
+            log.info("!activeHabits.isEmpty(): {}", !activeHabits.isEmpty());
+            double totalAchievementRate = 0;
+            for (HabitEntity habit : activeHabits) {
+                totalAchievementRate += habit.getAchievementRate();
+            }
+            double averageAchievementRate = totalAchievementRate / activeHabits.size();
+            int roundedAverage = (int) Math.round(averageAchievementRate);
+            log.info("습관 평균달성률 - 피드 :{}", averageAchievementRate);
+            return roundedAverage;
+        } else {
+            return 0;
+        }
+    }
+
+
     public List<HabitEntity> findUndeletedAndAllHabits(String email) throws Exception { //삭제여부 false 전부(중지일 상관없이 = 그만두기 포함)
         Optional<UserEntity> byEmail = userRepository.findByEmail(email);
         if (byEmail.isPresent()) {
             UserEntity user = byEmail.get();
             log.info("email로 user 찾기:{}", user.getEmail());
-            return habitRepository.findAllByDeleteYn(false);
+            return habitRepository.findAllByUserIdAndDeleteYn(user, false);
         } else {
             throw new Exception("User NOT FOUND!");
         }
@@ -69,13 +97,6 @@ public class HabitService {
             HabitEntity updatedHabit = habitRepository.save(habit);
 
             HabitResponseDto habitResponseDto = new HabitResponseDto();
-//            habitResponseDto.setId(updatedHabit.getId());
-//            habitResponseDto.setTitle(updatedHabit.getTitle());
-//            habitResponseDto.setDuration(updatedHabit.getDuration());
-//            habitResponseDto.setVisible(updatedHabit.isVisible());
-//            habitResponseDto.setComboCount(updatedHabit.getComboCount());
-//            habitResponseDto.setAchievementRate(updatedHabit.getAchievementRate());
-//            habitResponseDto.setAchievementCount(updatedHabit.getAchievementCount());
             setCommonHabitFields(habitResponseDto, updatedHabit);
 
             return habitResponseDto;
@@ -193,5 +214,8 @@ public class HabitService {
         habitDto.setAchievementCount(habitEntity.getAchievementCount());
     }
 
-
+    public List<HabitEntity> getContentsByTitle(String title) {
+        List<HabitEntity> allBYTitleContaining = habitRepository.findAllByTitleContaining(title);
+        return allBYTitleContaining;
+    }
 }

@@ -31,7 +31,7 @@ public class UserEntity {
     private String password;
 
     @Column(name = "PROFILE_IMAGE")
-    private String profile_image;
+    private String profileImage;
 
     @Column(name = "REFRESH_TOKEN")
     private String refreshToken;

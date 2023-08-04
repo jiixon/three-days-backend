@@ -73,4 +73,21 @@ public class UserService {
         return habits.isEmpty() ? null : habits;
     }
 
+    public UserEntity getUser(Long userId) {
+        UserEntity user = userRepository.findById(userId)
+                .orElseThrow(() -> new NotFoundException("User not found"));
+        return user;
+    }
+
+    public void createUser(String nickname, String email, String password, String profileImage, String refreshToken) {
+        UserEntity user = new UserEntity();
+        user.setNickname(nickname);
+        user.setEmail(email);
+        user.setPassword(password);
+        user.setProfileImage(profileImage);
+        user.setRefreshToken(refreshToken);
+
+        userRepository.save(user);
+    }
+
 }

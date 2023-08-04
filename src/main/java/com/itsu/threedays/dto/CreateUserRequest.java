@@ -5,14 +5,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Builder
 @Data
+@Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class KakaoUserInfoDto {
-    String email;
+public class CreateUserRequest {
     String nickname;
-    TokenDto tokenDto;
-    Long userId;
-
+    String email;
+    String password;
+    String profileImage;
+    String refreshToken;
 }

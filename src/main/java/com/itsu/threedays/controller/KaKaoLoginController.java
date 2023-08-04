@@ -14,11 +14,12 @@ import org.springframework.http.*;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.MultiValueMap;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
-
-import javax.servlet.http.HttpServletRequest;
 
 @RestController
 @RequiredArgsConstructor
@@ -29,9 +30,10 @@ public class KaKaoLoginController {
 
     private final UserService userService;
     private final JwtTokenProvider tokenProvider;
+    private static final String DEFAULT_IMAGE_URL = "https://itsubucket.s3.ap-northeast-2.amazonaws.com/certify-image/threedays2023_image.png";
 
     @PostMapping("/login")
-    ResponseEntity<?> responseJwtToken(@RequestBody UserDto userDto) { //파베 토큰, 엑세스 토큰, 디바이스 아디 받아옴
+    ResponseEntity<KakaoUserInfoDto> responseJwtToken(@RequestBody UserDto userDto) { //파베 토큰, 엑세스 토큰, 디바이스 아디 받아옴
         String KAKAO_USERINFO_REQUEST_URL = "https://kapi.kakao.com/v2/user/me";
 
         HttpHeaders httpHeaders = new HttpHeaders();
@@ -65,7 +67,7 @@ public class KaKaoLoginController {
                         .email(email)
                         .nickname(nickname)
                         .password(new BCryptPasswordEncoder().encode(email))
-                        //.profile_image(profileImageUrl)
+                        .profileImage(DEFAULT_IMAGE_URL)
                         .build();
                 String accessToken = tokenProvider.generateAccessToken(user);
                 log.info("accessToken: {}", accessToken);
@@ -77,29 +79,16 @@ public class KaKaoLoginController {
 
                 userService.saveUser(user);
                 log.info("user: {}", user);
+                KakaoUserInfoDto kakaoUserInfoDto = new KakaoUserInfoDto();
+                kakaoUserInfoDto.setUserId(user.getId());
+                kakaoUserInfoDto.setEmail(user.getEmail());
+                kakaoUserInfoDto.setTokenDto(TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).build());
+                kakaoUserInfoDto.setNickname(user.getNickname());
 
-                return new ResponseEntity<>(KakaoUserInfoDto.builder()
-                        .email(user.getEmail())
-                        .nickname(user.getNickname())
-                        .tokenDto(TokenDto.builder().accessToken(accessToken).refreshToken(refreshToken).build())
-                        .build(), HttpStatus.OK);
+                return ResponseEntity.ok(kakaoUserInfoDto);
 
             }
-//            else {
-//                log.info("이미 등록된 회원");
-//                if (!userIdService.getUserId(email).get().getFireBaseToken().equals(loginDto.getFirebaseToken())) { //파이어베이스 토큰 다르면 업데이트
-//                    log.info("firebaseToken Update");
-//                    User userId = userService.getUserId(email).get();
-////                    userId.setFireBaseToken(userDto.getFirebaseToken());
-//                    userService.saveUser(userId);
-//                }
-//
-//                User updateUser = new User(email, "", Collections.singleton(simpleGrantedAuthority));
-//                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(updateUser, userDto.getKakaoAccessToken(), Collections.singleton(simpleGrantedAuthority));
-//                String token = tokenProvider.createToken(usernamePasswordAuthenticationToken);
-//                log.info("token 발급: {}", token);
-//                return new ResponseEntity<>(token, HttpStatus.OK);
-//            }
+
         } catch (HttpClientErrorException e) {
             log.error("access token err : {}", e.getMessage());
         } catch (Exception e) {
@@ -107,20 +96,4 @@ public class KaKaoLoginController {
         }
         return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
     }
-
-    @GetMapping("/test")
-    public ResponseEntity<String> testApi(HttpServletRequest request) {
-        String jwt = tokenProvider.resolveToken(request);
-        log.info("testApi - jwt: {}", jwt);
-        if (jwt == null) {
-            return new ResponseEntity<>("JWT not found!", HttpStatus.BAD_REQUEST);
-        }
-
-        if (tokenProvider.validateToken(jwt)) {
-            return new ResponseEntity<>("JWT is valid", HttpStatus.OK);
-        } else {
-            return new ResponseEntity<>("JWT is invalid", HttpStatus.UNAUTHORIZED);
-        }
-    }
-
 }

@@ -17,6 +17,7 @@ import java.net.URL;
 import java.net.URLDecoder;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
 
 
 @Service
@@ -29,14 +30,24 @@ public class S3uploader {
     @Value("${cloud.aws.s3.bucket}")
     private String bucket;
 
+    public String upload(MultipartFile multipartFile, String fileName) throws IOException {
+        byte[] fileBytes = multipartFile.getBytes();
+        String imageUrl = putS3(fileBytes, fileName);
+        return imageUrl;
+    }
+
     public List<String> upload(List<MultipartFile> multipartFiles, String dirName) throws IOException {
         List<String> imageUrls = new ArrayList<>();
 
         for (MultipartFile multipartFile : multipartFiles) {
+            String originalFilename = multipartFile.getOriginalFilename();
+            String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
+            String uniqueFilename = UUID.randomUUID().toString() + extension;
+            String fileName = dirName + "/" + uniqueFilename;
+
             byte[] fileBytes = multipartFile.getBytes();
-            String fileName = dirName + "/" + multipartFile.getOriginalFilename(); // S3 객체의 파일 이름을 설정
             String imageUrl = putS3(fileBytes, fileName);
-            imageUrls.add(imageUrl); // 업로드된 파일의 S3 URL을 이미지 URL 목록에 추가
+            imageUrls.add(imageUrl);
         }
         return imageUrls;
     }

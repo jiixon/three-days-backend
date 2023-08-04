@@ -1,6 +1,5 @@
 package com.itsu.threedays.entity;
 
-import com.itsu.threedays.CertifyImageEntityListener;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -13,7 +12,6 @@ import javax.persistence.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-@EntityListeners(CertifyImageEntityListener.class)
 @Table(name = "CERTIFY_IMAGE_ENTITY")
 public class CertifyImageEntity {
     @Id
