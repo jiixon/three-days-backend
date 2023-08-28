@@ -14,13 +14,13 @@
 
 #### 백엔드
 
-<img src="https://img.shields.io/badge/springboot-6DB33F?style=flat-logo&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=flat-logo&logo=gradle&logoColor=white"> <img alt="Spring Security" src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-logo&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=flat-logo&logo=mysql&logoColor=white"> <img alt="Amazon RDS" src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat-logo&logo=Amazon RDS&logoColor=white"> <img alt="Amazon S3" src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-logo&logo=Amazon S3&logoColor=white">
+<img src="https://img.shields.io/badge/springboot-6DB33F?style=flat-logo&logo=springboot&logoColor=white"> <img src="https://img.shields.io/badge/gradle-02303A?style=flat-logo&logo=gradle&logoColor=white"> <img src="https://img.shields.io/badge/SPRING JPA-005571?style=flat-logo&logo=spring&logoColor=white"> <img alt="Spring Security" src="https://img.shields.io/badge/Spring Security-6DB33F?style=flat-logo&logo=Spring Security&logoColor=white"> <img src="https://img.shields.io/badge/mysql-4479A1?style=flat-logo&logo=mysql&logoColor=white"> <img alt="Amazon RDS" src="https://img.shields.io/badge/Amazon RDS-527FFF?style=flat-logo&logo=Amazon RDS&logoColor=white"> <img alt="Amazon S3" src="https://img.shields.io/badge/Amazon S3-569A31?style=flat-logo&logo=Amazon S3&logoColor=white">
 
 #### 프론트엔드
 <img src="https://img.shields.io/badge/Android Studio-3DDC84?style=flat-logo&logo=Android Studio&logoColor=white"/> <img alt="Kotlin" src="https://img.shields.io/badge/Kotlin-7F52FF?style=flat-logo&logo=Kotlin&logoColor=white">
 
 #### 배포
-<img src="https://img.shields.io/badge/amazonaws-232F3E?style=flat-logo&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/amazonec2-FF9900?style=flat-logo&logo=amazonec2&logoColor=white">
+<img src="https://img.shields.io/badge/amazonaws-232F3E?style=flat-logo&logo=amazonaws&logoColor=white"> <img src="https://img.shields.io/badge/elastic beanstalk-005571?style=flat-logo&logo=elastic beanstalk&logoColor=white"> <img src="https://img.shields.io/badge/Github Actions-2088FF?style=flat-logo&logo=Github Actions&logoColor=white"> <img src="https://img.shields.io/badge/Code Deploy-FF4F8B?style=flat-logo&logo=amazonapigateway&logoColor=white">
 
 #### 협업
 <img alt="Notion" src="https://img.shields.io/badge/Notion-000000?style=flat-logo&logo=Notion&logoColor=white"> <img src="https://img.shields.io/badge/github-181717?style=flat-logo&logo=github&logoColor=white"> <img alt="Swagger" src="https://img.shields.io/badge/Swagger-85EA2D?style=flat-logo&logo=Swagger&logoColor=white">
@@ -42,7 +42,7 @@
 <br>
 
 ## 🚀 CI/CD
-<img src="https://github.com/jiixon/three-days-backend/assets/108799865/b64e3024-5377-46d4-a5ce-b0a449400ee0.png" width="800" height="300"/>
+<img src="https://github.com/jiixon/three-days-backend/assets/108799865/8f5b9fb3-2a0f-4628-b013-dd027f3597ee.png" width="800" height="300"/>
 
 ## ERD
 <img src="https://github.com/jiixon/three-days-backend/assets/108799865/2b02ec32-b336-4488-b01b-d44bc8811df8.png" width="800" height="400"/>
