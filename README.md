@@ -42,7 +42,7 @@
 <br>
 
 ## 🚀 CI/CD
-<img src="https://github.com/jiixon/three-days-backend/assets/108799865/8f5b9fb3-2a0f-4628-b013-dd027f3597ee.png" width="800" height="300"/>
+<img src="https://github.com/jiixon/three-days-backend/assets/108799865/8f5b9fb3-2a0f-4628-b013-dd027f3597ee.png" width="800" height="500"/>
 
 ## ERD
 <img src="https://github.com/jiixon/three-days-backend/assets/108799865/2b02ec32-b336-4488-b01b-d44bc8811df8.png" width="800" height="400"/>
